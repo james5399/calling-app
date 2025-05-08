@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calling App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .app-container {
+      background: white;
+      width: 350px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .contact-list {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .contact {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .call-btn {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .call-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .call-timer {
+      font-size: 24px;
+      margin: 15px 0;
+    }
+
+    .hangup-btn {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Contact List View -->
+  <div class="contact-list" id="contactList">
+    <div class="contact">
+      <span>John Doe</span>
+      <button class="call-btn" onclick="startCall('John Doe')">Call</button>
+    </div>
+    <div class="contact">
+      <span>Jane Smith</span>
+      <button class="call-btn" onclick="startCall('Jane Smith')">Call</button>
+    </div>
+  </div>
+
+  <!-- Call Screen View -->
+  <div class="call-screen" id="callScreen">
+    <h2 id="callingName">Calling...</h2>
+    <div class="call-timer" id="callTimer">00:00</div>
+    <button class="hangup-btn" onclick="endCall()">Hang Up</button>
+  </div>
+</div>
+
+<script>
+  let timer;
+  let seconds = 0;
+
+  function startCall(name) {
+    document.getElementById('contactList').style.display = 'none';
+    document.getElementById('callScreen').style.display = 'flex';
+    document.getElementById('callingName').innerText = `Calling ${name}...`;
+    seconds = 0;
+    updateTimer();
+    timer = setInterval(() => {
+      seconds++;
+      updateTimer();
+    }, 1000);
+  }
+
+  function endCall() {
+    clearInterval(timer);
+    document.getElementById('callScreen').style.display = 'none';
+    document.getElementById('contactList').style.display = 'block';
+  }
+
+  function updateTimer() {
+    let mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+    let secs = String(seconds % 60).padStart(2, '0');
+    document.getElementById('callTimer').innerText = `${mins}:${secs}`;
+  }
+</script>
+
+</body>
+</html>
+
+
